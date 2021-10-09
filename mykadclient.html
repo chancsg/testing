@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<headers>
+<body>
+<script>
+function getElement(xmldoc, tagname)
+{
+	if( typeof (xmldoc.getElementsByTagName(tagname)[0].childNodes[0]) == "undefined" ) {
+		return "";
+	}
+	else {
+		return xmldoc.getElementsByTagName(tagname)[0].childNodes[0].nodeValue;
+	}
+}
+function quote(s) // return abc as "abc", needed in json string
+{
+	return "\"" + s + "\"";
+}	
+function DisplayMyKID_JSON(mykid_str) {
+	var obj = JSON.parse(mykid_str);
+	var NL = "\n";
+	var out = "";
+	var out1 = "<b>MyKID Info:</b><br>";
+	out += "ERR_CODE: " + obj.ERR_CODE + NL;
+	out += "Name: " + obj.Name + NL;
+	out += "IC#: " + obj.ICNo + NL;
+	out += "Gender: " + obj.Gender + NL;
+	out += "DOB: " + obj.DOB + NL;
+	out += "BirthCertNo: " + obj.BirthCertNo + NL;
+	out += "BirthPlace: " + obj.BirthPlace + NL;
+	out += "Addr1: " + obj.Addr1 + NL;
+	out += "Addr2: " + obj.Addr2 + NL;
+	out += "Addr3: " + obj.Addr3 + NL;
+	out += "Postcode: " + obj.Postcode + NL;
+	out += "City: " + obj.City + NL;
+	out += "State: " + obj.State + NL;
+	out += "Nationality: " + obj.Nationality + NL;
+	out += "FatherName: " + obj.FatherName + NL;
+	out += "FatherICNo: " + obj.FatherICNo + NL;
+	out += "FatherNationality: " + obj.FatherNationality + NL;
+	out += "FatherRace: " + obj.FatherRace + NL;
+	out += "FatherReligion: " + obj.FatherReligion + NL;
+	out += "MotherName: " + obj.MotherName + NL;
+	out += "MotherICNo: " + obj.MotherICNo + NL;
+	out += "MotherNationality: " + obj.MotherNationality + NL;
+	out += "MotherRace: " + obj.MotherRace + NL;
+	out += "MotherReligion: " + obj.MotherReligion + NL;
+	out += "RegDate: " + obj.RegDate + NL;
+	out += "Version: " + obj.Version + NL;
+	out += "===================================";
+	document.getElementById("mykad_info").innerHTML = 
+					out1 +
+					"<b>Itemized Result:</b><br>" + 
+					"<textarea rows=\"16\" cols=\"120\" style=\"border:none;\">" + 
+					out +
+					"</textarea>";
+}
+function DisplayMyKAD_JSON(mykad_str) {
+	var obj = JSON.parse(mykad_str);
+	var NL = "\n";
+	var out = "";
+	var out1 = "<b>MyKAD Info:</b><br>";
+	if (obj.Photo != "") { 
+		out1 += "<img src=\"data:image/jpg;base64," + obj.Photo + "\"></img>";
+		out1 += "<img src=\"data:image/jpg;base64," + obj.Photo + "\" width=\"10%\" height=\"10%\"></img>";
+		out1 += "<img src=\"data:image/jpg;base64," + obj.Photo + "\" width=\"5%\" height=\"5%\"></img>" + "<br>";
+	}
+	out += "ERR_CODE: " + obj.ERR_CODE + NL;
+	out += "Name: " + obj.Name + NL;
+	out += "IC#: " + obj.ICNo + NL;
+	out += "Gender: " + obj.Gender + NL;
+	out += "DOB: " + obj.DOB + NL;
+	out += "BirthPlace: " + obj.BirthPlace + NL;
+	out += "OldIC#: " + obj.OldICNo + NL;
+	out += "Addr1: " + obj.Addr1 + NL;
+	out += "Addr2: " + obj.Addr2 + NL;
+	out += "Addr3: " + obj.Addr3 + NL;
+	out += "Postcode: " + obj.Postcode + NL;
+	out += "City: " + obj.City + NL;
+	out += "State: " + obj.State + NL;
+	out += "Race: " + obj.Race + NL;
+	out += "Nationality: " + obj.Nationality + NL;
+	out += "Left_FP_Verify_Status: " + obj.Left_FP_Verify_Status + NL;
+	out += "Right_FP_Verify_Status: " + obj.Right_FP_Verify_Status + NL;
+	out += "Photo: " + obj.Photo + NL;
+	out += "RegDate: " + obj.RegDate + NL;
+	out += "Version: " + obj.Version + NL;
+	out += "===================================";
+	document.getElementById("mykad_info").innerHTML = 
+					out1 +
+					"<b>Itemized Result:</b><br>" + 
+					"<textarea rows=\"16\" cols=\"120\" style=\"border:none;\">" + 
+					out +
+					"</textarea>";
+}
+function DisplayMyKAD_XML(mykad_str) {
+	var json_str = "{";
+	parser = new DOMParser();
+	xmlDoc = parser.parseFromString(mykad_str,"text/xml");	
+	
+	// convert to json string
+	json_str += (quote("ERR_CODE") + ":" + quote(getElement(xmlDoc, "ERR_CODE")) + ",");
+	json_str += (quote("Name") + ":" + quote(getElement(xmlDoc, "Name")) + ",");
+	json_str += (quote("ICNo") + ":" + quote(getElement(xmlDoc, "ICNo")) + ",");
+	json_str += (quote("Gender") + ":" + quote(getElement(xmlDoc, "Gender")) + ",");
+	json_str += (quote("DOB") + ":" + quote(getElement(xmlDoc, "DOB")) + ",");
+	json_str += (quote("BirthPlace") + ":" + quote(getElement(xmlDoc, "BirthPlace")) + ",");
+	json_str += (quote("OldICNo") + ":" + quote(getElement(xmlDoc, "OldICNo")) + ",");
+	json_str += (quote("Addr1") + ":" + quote(getElement(xmlDoc, "Addr1")) + ",");
+	json_str += (quote("Addr2") + ":" + quote(getElement(xmlDoc, "Addr2")) + ",");
+	json_str += (quote("Addr3") + ":" + quote(getElement(xmlDoc, "Addr3")) + ",");
+	json_str += (quote("Postcode") + ":" + quote(getElement(xmlDoc, "Postcode")) + ",");
+	json_str += (quote("City") + ":" + quote(getElement(xmlDoc, "City")) + ",");
+	json_str += (quote("State") + ":" + quote(getElement(xmlDoc, "State")) + ",");
+	json_str += (quote("Race") + ":" + quote(getElement(xmlDoc, "Race")) + ",");
+	json_str += (quote("Nationality") + ":" + quote(getElement(xmlDoc, "Nationality")) + ",");
+	json_str += (quote("Left_FP_Verify_Status") + ":" + quote(getElement(xmlDoc, "Left_FP_Verify_Status")) + ",");
+	json_str += (quote("Right_FP_Verify_Status") + ":" + quote(getElement(xmlDoc, "Right_FP_Verify_Status")) + ",");
+	json_str += (quote("Photo") + ":" + quote(getElement(xmlDoc, "Photo")) + ",");
+	json_str += (quote("RegDate") + ":" + quote(getElement(xmlDoc, "RegDate")) + ",");
+	json_str += (quote("Version") + ":" + quote(getElement(xmlDoc, "Version")) + "}");
+	DisplayMyKAD_JSON(json_str) 
+}
+function DisplayMyKAD_URL_XML(url) {
+	alert(url);
+    var request = new XMLHttpRequest();
+    request.open("GET", url, false);
+    request.send();
+    xml = request.responseXML;	
+	var s = new XMLSerializer();
+	var newXmlStr = s.serializeToString(xml);
+	//alert(newXmlStr);
+	DisplayMyKAD_XML(newXmlStr);
+}
+function DisplayMyKID_XML(mykid_str) {
+	var json_str = "{";
+	parser = new DOMParser();
+	xmlDoc = parser.parseFromString(mykid_str,"text/xml");	
+	
+	// convert to json string
+	json_str += (quote("ERR_CODE") + ":" + quote(getElement(xmlDoc, "ERR_CODE")) + ",");
+	json_str += (quote("Name") + ":" + quote(getElement(xmlDoc, "Name")) + ",");
+	json_str += (quote("Gender") + ":" + quote(getElement(xmlDoc, "Gender")) + ",");
+	json_str += (quote("DOB") + ":" + quote(getElement(xmlDoc, "DOB")) + ",");
+	json_str += (quote("BirthPlace") + ":" + quote(getElement(xmlDoc, "BirthPlace")) + ",");
+	json_str += (quote("BirthCertNo") + ":" + quote(getElement(xmlDoc, "BirthCertNo")) + ",");
+	json_str += (quote("ICNo") + ":" + quote(getElement(xmlDoc, "ICNo")) + ",");
+	json_str += (quote("Nationality") + ":" + quote(getElement(xmlDoc, "Nationality")) + ",");
+	json_str += (quote("Addr1") + ":" + quote(getElement(xmlDoc, "Addr1")) + ",");
+	json_str += (quote("Addr2") + ":" + quote(getElement(xmlDoc, "Addr2")) + ",");
+	json_str += (quote("Addr3") + ":" + quote(getElement(xmlDoc, "Addr3")) + ",");
+	json_str += (quote("Postcode") + ":" + quote(getElement(xmlDoc, "Postcode")) + ",");
+	json_str += (quote("City") + ":" + quote(getElement(xmlDoc, "City")) + ",");
+	json_str += (quote("State") + ":" + quote(getElement(xmlDoc, "State")) + ",");
+	json_str += (quote("FatherICNo") + ":" + quote(getElement(xmlDoc, "FatherICNo")) + ",");
+	json_str += (quote("FatherName") + ":" + quote(getElement(xmlDoc, "FatherName")) + ",");
+	json_str += (quote("FatherNationality") + ":" + quote(getElement(xmlDoc, "FatherNationality")) + ",");
+	json_str += (quote("FatherRace") + ":" + quote(getElement(xmlDoc, "FatherRace")) + ",");
+	json_str += (quote("FatherReligion") + ":" + quote(getElement(xmlDoc, "FatherReligion")) + ",");
+	json_str += (quote("MotherICNo") + ":" + quote(getElement(xmlDoc, "MotherICNo")) + ",");
+	json_str += (quote("MotherName") + ":" + quote(getElement(xmlDoc, "MotherName")) + ",");
+	json_str += (quote("MotherNationality") + ":" + quote(getElement(xmlDoc, "MotherNationality")) + ",");
+	json_str += (quote("MotherRace") + ":" + quote(getElement(xmlDoc, "MotherRace")) + ",");
+	json_str += (quote("MotherReligion") + ":" + quote(getElement(xmlDoc, "MotherReligion")) + ",");
+	json_str += (quote("RegDate") + ":" + quote(getElement(xmlDoc, "RegDate")) + ",");
+	json_str += (quote("Version") + ":" + quote(getElement(xmlDoc, "Version")) + "}");
+	DisplayMyKID_JSON(json_str) 
+}
+function GetMyKADFromURL(urlfile) 
+{
+	DisplayMyKAD_URL_XML(urlfile);
+}
+function GetMyKAD(fmt) 
+{
+	var method = "GET";
+	var url = "";
+	var xhr = new XMLHttpRequest();
+	if (fmt == "MyKAD.JSON") {
+		url = document.getElementById("idURIJSON").value;
+		xhr.responseType = '';
+	} else if (fmt == "MyKID.JSON") {
+		url = document.getElementById("idMyKIDURIJSON").value;
+		xhr.responseType = '';
+	} else if (fmt == "MyKAD.XML") {
+		url = document.getElementById("idURIXML").value;
+		xhr.responseType = 'xml';
+	} else if (fmt == "MyKID.XML") {
+		url = document.getElementById("idMyKIDURIXML").value;
+		xhr.responseType = 'xml';
+	}
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4) {
+			if (this.status == 200) {
+				document.getElementById("returntext").innerHTML = 
+					"<b>Response:</b><br>" + 
+					"<textarea rows=\"8\" cols=\"120\" style=\"border:none;\">" + 
+					this.responseText +
+					"</textarea>";
+				if (fmt == "MyKAD.JSON") {
+					alert("[" + this.responseText + "]");
+					DisplayMyKAD_JSON(this.responseText);
+				} 
+				else if (fmt == "MyKID.JSON") {
+					alert("[" + this.responseText + "]");
+					DisplayMyKID_JSON(this.responseText);
+				} 
+				else if (fmt == "MyKAD.XML") {
+					DisplayMyKAD_XML(this.responseText);
+				}
+				else if (fmt == "MyKID.XML") {
+					DisplayMyKID_XML(this.responseText);
+				}
+			}
+			else {
+				alert("Failed to get any data from the host.");
+			}
+		}
+	};
+
+	if ("withCredentials" in xhr) {
+		// Check if the XMLHttpRequest object has a "withCredentials" property.
+		// "withCredentials" only exists on XMLHTTPRequest2 objects.
+		xhr.open(method, url, true);
+		//xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+	} else if (typeof XDomainRequest != "undefined") {
+		// Otherwise, check if XDomainRequest.
+		// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+		xhr = new XDomainRequest();
+		xhr.open(method, url);
+		//xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+	} else {
+		alert("CORS is not supported by the browser");  // Otherwise, CORS is not supported by the browser.
+		xhr = null;
+	}
+	xhr.send();
+} // GetMyKAD
+
+</script>
+<b>Version 1.08</b><br>
+<b>This is an example to show how HTML + JAVASCRIPT consumes a WEB Service to access MyKAD/MyKID</b><br>
+<b>Returned MyKAD/MyKID data is in JSON or XML format</b><br>
+<hr>
+MyKAD:<br>
+JSON URI:
+<input id="idURIJSON" name="URIJSON" value="" Style="Width: 70%">
+<button id="idGetMyKADJSON" type="button" onclick="GetMyKAD('MyKAD.JSON')" Style="Width: 100">Get MyKAD.JSON</button><br>
+XML  URI:
+<input id="idURIXML" name="URIXML" value="" Style="Width: 70%">
+<button id="idGetMyKADXML" type="button" onclick="GetMyKAD('MyKAD.XML')" Style="Width: 100">Get MyKAD.XML</button><br>
+<button id="idGetMyKADXMLFile" type="button" onclick="GetMyKADFromURL('http://localhost/MyKAD-Data/MyKADData1.xml')" Style="Width: 100">Get MyKAD From XML File</button><br>
+<hr>
+MyKID:<br>
+JSON URI:
+<input id="idMyKIDURIJSON" name="MyKIDURIJSON" value="" Style="Width: 70%">
+<button id="idGetMyKIDJSON" type="button" onclick="GetMyKAD('MyKID.JSON')" Style="Width: 100">Get MyKID.JSON</button><br>
+XML  URI:
+<input id="idMyKIDURIXML" name="MyKIDURIXML" value="" Style="Width: 70%">
+<button id="idGetMyKIDXML" type="button" onclick="GetMyKAD('MyKID.XML')" Style="Width: 100">Get MyKID.XML</button><br>
+<hr>
+<p id="returntext"><b>Response:</b></p>
+<hr>
+<p id="mykad_info"><b>MyKAD Info:</b></p>
+
+<script>
+
+//var myurlxml_temp = "http://localhost/MyKAD/GetMyKAD?LoadPhoto=NO&VerifyFP=NO&Format=XML";
+var myurlxml = "http://localhost/MyKAD/GetMyKAD?LoadPhoto=NO&VerifyFP=NO&Format=XML";
+var myurljson = "http://localhost/MyKAD/GetMyKAD?LoadPhoto=NO&VerifyFP=NO&Format=JSON";
+var mykidurlxml = "http://localhost/MyKAD/GetMyKID?mockup=YES&Format=XML";
+var mykidurljson = "http://localhost/MyKAD/GetMyKID?mockup=YES&Format=JSON";
+document.getElementById("idURIXML").value = myurlxml;
+document.getElementById("idURIJSON").value = myurljson;
+document.getElementById("idMyKIDURIXML").value = mykidurlxml;
+document.getElementById("idMyKIDURIJSON").value = mykidurljson;
+</script>
+
+</body>
+</html>
